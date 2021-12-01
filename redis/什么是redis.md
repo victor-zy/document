@@ -21,13 +21,16 @@ RedisObject 最主要的信息如上图所示：type表示一个value对象具�
 
 
 * 字符串 string
+
 string 是redis最基本的类型，可以理解成与Memcached一模一样的类型，一个Key对应一个value。value不仅是String,也可以是数字
 string 类型是二进制安全的，意思是Redis的string类型可以包含任何数据，比如jpg图片或者序列化的对象，string类型的值最大能存储512M
 
-* 散列 hashe
+* 散列 hash
+
 Hash是一个键值（key-value）的集合，Redis的Hash是一个string的key和value的映射表，Hash特别适合存储对象，常用命令：hget，hset，hgetall等
 
 * 列表 list
+
 List列表是简单的字符串列表，按照插入顺序排序，可以添加一个元素到列表的头部或者尾部;
 常用的命令：lpush, rpush, lpop, rpop, lrange(获取列表片段)
 应用场景：List应用场景非常多，惹事Redis最重要的数据结构之一，比如说，B站的关注列表，粉丝列表都可以用List来实现
@@ -35,10 +38,12 @@ List列表是简单的字符串列表，按照插入顺序排序，可以添加�
 实现方式：Redis List的实现是一个双向链表，既可以支持反向查找和遍历，更方便操作，不过带来了额外的内存开销。
 
 * 集合 set
+
 Set 是String类型的无序集合，集合是通过hashtable实现的，Set中的元素没有顺序的，而且是没有重复的，常用命令：sadd，spop， smembers, sunion(并集)，sinter(交集)， sdiff(差集)
 应用场景：Redis Set对外提供的功能和list一样是一个列表，特殊之处在于Set是自动去重的，而且Set提供了判断某个成员是否在一个Set集合中。
 
 * 有序集合 sorted sets
+
 zest 和 set一样是string类型元素的集合，而且不允许重复的元素。常用命令：zadd， zrange，zrem， zcard等
 使用场景：sorted set 可以通过用户额外提供一个优先级(score)的参数来为成员排序，并且是插入有序的，（自动排序）
 当你需要一个有序的并且不重复的集合列表，那么可以选择sorted set结构
