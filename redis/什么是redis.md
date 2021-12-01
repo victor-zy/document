@@ -28,14 +28,35 @@ string 类型是二进制安全的，意思是Redis的string类型可以包含�
 Hash是一个键值（key-value）的集合，Redis的Hash是一个string的key和value的映射表，Hash特别适合存储对象，常用命令：hget，hset，hgetall等
 
 * 列表 list
-List列表是简单的字符串列表，按照插入顺序排序，可以添加一个元素到列表的头部或者尾部，常用的命令：lpush, rpush, lpop, rpop, lrange(获取列表片段)
+List列表是简单的字符串列表，按照插入顺序排序，可以添加一个元素到列表的头部或者尾部;
+常用的命令：lpush, rpush, lpop, rpop, lrange(获取列表片段)
 应用场景：List应用场景非常多，惹事Redis最重要的数据结构之一，比如说，B站的关注列表，粉丝列表都可以用List来实现
 数据结构：List就是链表，可以用来当消息队列用，Redis提供了List的Push和Pop操作，还提供了操作某一段的API，可以直接查询或者删除某一段的元素。
 实现方式：Redis List的实现是一个双向链表，既可以支持反向查找和遍历，更方便操作，不过带来了额外的内存开销。
 
 * 集合 set
-Set 是String类型的无序集合，集合是通过hashtable实现的，Set中的元素没有顺序的，而且是没有重复的，常用命令：sadd，spop， smembers, sunion
+Set 是String类型的无序集合，集合是通过hashtable实现的，Set中的元素没有顺序的，而且是没有重复的，常用命令：sadd，spop， smembers, sunion(并集)，sinter(交集)， sdiff(差集)
+应用场景：Redis Set对外提供的功能和list一样是一个列表，特殊之处在于Set是自动去重的，而且Set提供了判断某个成员是否在一个Set集合中。
+
 * 有序集合 sorted sets
+zest 和 set一样是string类型元素的集合，而且不允许重复的元素。常用命令：zadd， zrange，zrem， zcard等
+使用场景：sorted set 可以通过用户额外提供一个优先级(score)的参数来为成员排序，并且是插入有序的，（自动排序）
+当你需要一个有序的并且不重复的集合列表，那么可以选择sorted set结构
+和set相比，sorted set关联了一个double类型权重的参数score，使得集合中的元素能够按照score进行有序排列，Redis正式通过分数来为集合中的成员进行从大到小的排序
+
+实现方式： Redis sorted set 的内部使用HashMap和跳跃表来保证数据的存储和有序，HashMap里放的是成员到score的映射
+而跳跃表里存放的是所有的成员，排序依据是HashMap里存放的score，使用跳跃表的结构可以获得比较高的查询效率，并且在实现上比较简单
+
+**数据类型应用场景**
+
+| 类型  |   简介    |   特性    |   场景    |
+|---|---|---|---|
+|   string  |   -    |   可以包含任何数据，比如jpg图片或者序列化对象 |   -   |
+|   hash    |   键值对集合，即编程语言中的map类型   |   适合存储对象，并且可以像数据库中的update属性一样只修改某一项的属性值    |   存储，读取，修改用户属性    |
+|   list    |   链表（双向链表）    |   增删快，提供了操作某一元素的api |   最新消息排行；消息队列  |
+|   set     |   hash表实现，元素不重复  |   添加，删除，查找的复杂度都是O(1)，提供了求交集，并集，差集的操作    |   共同好友；利用唯一性，统计访问网站的所有IP  |
+|   sorted set  |   将set中的元素增加一个权重参数score，元素按score有序排列     |   数据插入集合的时候，已经天然排序好了    |   排行榜；带权重的消息队列    |
+
 
 **重点：列表缓存**
 ***./lib/index.js***
