@@ -1,0 +1,22 @@
+{
+    "orderNo": "order_id",
+    "productType": "commodity_type",
+    "productId": "commodity_id",
+    "goodsName": "commodity_name",
+    "templateId": "id",
+    "templateName": "name",
+    "coninAmount": "conin_amount",
+    "vipDuration": "vip_time",
+    "avatarCount": "avatar_count",
+    "payType": "pay_type",
+    "originalPrice": "original_price",
+    "afRevenue": "af_revenue",
+    "orderType": "order_type",
+    "currency": "af_currency",
+    "appVersion": "app_version",
+    "ip": "user_ip",
+    "country": "user_country",
+    "deviceModel": "manufacturer",
+    "osVersion": "os_version",
+    "afId": "af_id"
+}
